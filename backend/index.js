@@ -282,23 +282,31 @@ app.post("/api/record", async (req, res) => {
       return res.status(400).json({ message: "invalid input" });
     }
     if (datatype == "blood pressure") {
-      if (readingValue < 0 || readingValue > 500) {
-        return res.status(400).json({ message: "invalid input" });
+      if (readingValue < 0 ) {
+        return res.status(400).send("value of blood pressure must be positive")
+      } else  if (readingValue > 500) {
+        return res.status(400).send("value of blood pressure too high")
       }
     } else if (datatype == "respiratory rate") {
-      if (readingValue < 0 || readingValue > 90) {
-        return res.status(400).json({ message: "invalid input" });
+      if (readingValue < 0 ) {
+        return res.status(400).send("value of respiratory rate must positive")
+      } else if (readingValue > 90) {
+        return res.status(400).send("value of respiratory rate too high")
       }
     } else if (datatype == "blood oxygen level") {
-      if (readingValue < 10 || readingValue > 100) {
-        return res.status(400).json({ message: "invalid input" });
-      }
+      if (readingValue < 10) {
+        return res.status(400).send("value of blood oxygen level too low")
+      } else if (readingValue > 100) {
+        return res.status(400).send("value of blood oxygen level too high")
+      } 
     } else if (datatype == "heart beat rate") {
-      if (readingValue < 0 || readingValue > 500) {
-        return res.status(400).json({ message: "invalid input" });
+      if (readingValue < 0) {
+        return res.status(400).send("value of heart beat rate must be positive")
+      } else if (readingValue < 0 || readingValue > 500) {
+        return res.status(400).send("value of heart beat rate too high")
       }
     } else {
-      return res.status(400).json({ message: "invalid input" });
+      return res.status(400).send("invalid input")
     }
     const patientRecord = new PatientRecord({
       measurementDate,
