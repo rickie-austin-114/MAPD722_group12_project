@@ -1,17 +1,58 @@
 import 'package:flutter/material.dart';
-
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import './show_message.dart';
 
 
 class EditPatientScreen extends StatefulWidget {
   final Map<String, dynamic> patient;
+  final Function() onPop;
 
-  EditPatientScreen({required this.patient});
+  EditPatientScreen({required this.patient, required this.onPop});
 
   @override
   _EditPatientScreenState createState() => _EditPatientScreenState();
 }
 
 class _EditPatientScreenState extends State<EditPatientScreen> {
+  Future<void> sendEditPatientRequest(BuildContext context) async {
+    final String url =
+        'http://localhost:5001/api/patients/${widget.patient["_id"]}'; // Replace with your API endpoint
+
+    print(url);
+    // Create the JSON data
+    final Map<String, dynamic> jsonData = {
+      'name': _nameController.text,
+      'age': _ageController.text,
+      "gender": _genderController.text,
+      "address": _addressController.text,
+      "zipCode": _zipCodeController.text,
+      "profilePicture": _profilePictureController.text,
+    };
+
+    // Send the PUT request
+    final response = await http.put(
+      Uri.parse(url),
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode(jsonData),
+    );
+
+    // Check the response
+    if (response.statusCode == 200) {
+      // If the server returns a 200 OK response, parse the JSON
+      print('Response data: ${response.body}');
+
+      showMessage(context, "Sucess", "Details of patient updated");
+
+      Navigator.pop(context);
+      widget.onPop();
+    } else {
+      // If the server did not return a 200 OK response, throw an exception
+      showMessage(context, "Failed", 'Failed to update resource: ${response.statusCode}');
+
+    }
+  }
+
   late TextEditingController _nameController;
   late TextEditingController _ageController;
   late TextEditingController _genderController;
@@ -69,7 +110,7 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
             ElevatedButton(
               onPressed: () {
                 // Save changes logic here
-                Navigator.pop(context);
+                sendEditPatientRequest(context);
               },
               child: Text('Save'),
             ),

@@ -25,61 +25,65 @@ async function isCritical(id) {
   // Check if the patient exists
   const patient = await Patient.findById(id);
 
-  // Fetch the latest records for blood pressure and blood oxygen level
-  const bloodPressureRecord = await PatientRecord.findOne({
-    patient: id,
-    datatype: "blood pressure",
-  }).sort({ measurementDate: -1 });
-  const bloodOxygenRecord = await PatientRecord.findOne({
-    patient: id,
-    datatype: "blood oxygen level",
-  }).sort({ measurementDate: -1 });
-  const respiratoryRateRecord = await PatientRecord.findOne({
-    patient: id,
-    datatype: "respiratory rate",
-  }).sort({ measurementDate: -1 });
-  const heartBeatRateRecord = await PatientRecord.findOne({
-    patient: id,
-    datatype: "heart beat rate",
-  }).sort({ measurementDate: -1 });
+  if (patient) {
+    // Fetch the latest records for blood pressure and blood oxygen level
+    const bloodPressureRecord = await PatientRecord.findOne({
+      patient: id,
+      datatype: "blood pressure",
+    }).sort({ measurementDate: -1 });
+    const bloodOxygenRecord = await PatientRecord.findOne({
+      patient: id,
+      datatype: "blood oxygen level",
+    }).sort({ measurementDate: -1 });
+    const respiratoryRateRecord = await PatientRecord.findOne({
+      patient: id,
+      datatype: "respiratory rate",
+    }).sort({ measurementDate: -1 });
+    const heartBeatRateRecord = await PatientRecord.findOne({
+      patient: id,
+      datatype: "heart beat rate",
+    }).sort({ measurementDate: -1 });
 
-  // Default to normal if no records are found
-  let isCritical = false;
+    // Default to normal if no records are found
+    let isCritical = false;
 
-  // Check blood pressure
-  if (bloodPressureRecord) {
-    const bloodPressureValue = bloodPressureRecord.readingValue;
-    if (bloodPressureValue < 20 || bloodPressureValue > 120) {
-      isCritical = true;
+    // Check blood pressure
+    if (bloodPressureRecord) {
+      const bloodPressureValue = bloodPressureRecord.readingValue;
+      if (bloodPressureValue < 20 || bloodPressureValue > 120) {
+        isCritical = true;
+      }
     }
-  }
 
-  // Check blood oxygen level
-  if (bloodOxygenRecord) {
-    const bloodOxygenValue = bloodOxygenRecord.readingValue;
-    if (bloodOxygenValue < 95 || bloodOxygenValue > 100) {
-      isCritical = true;
+    // Check blood oxygen level
+    if (bloodOxygenRecord) {
+      const bloodOxygenValue = bloodOxygenRecord.readingValue;
+      if (bloodOxygenValue < 95 || bloodOxygenValue > 100) {
+        isCritical = true;
+      }
     }
-  }
 
-  if (respiratoryRateRecord) {
-    const respiratoryRateValue = respiratoryRateRecord.readingValue;
-    if (respiratoryRateValue < 12 || respiratoryRateValue > 25) {
-      isCritical = true;
+    if (respiratoryRateRecord) {
+      const respiratoryRateValue = respiratoryRateRecord.readingValue;
+      if (respiratoryRateValue < 12 || respiratoryRateValue > 25) {
+        isCritical = true;
+      }
     }
-  }
 
-  if (heartBeatRateRecord) {
-    const heartBeatRateValue = heartBeatRateRecord.readingValue;
-    if (heartBeatRateValue < 60 || heartBeatRateValue > 100) {
-      isCritical = true;
+    if (heartBeatRateRecord) {
+      const heartBeatRateValue = heartBeatRateRecord.readingValue;
+      if (heartBeatRateValue < 60 || heartBeatRateValue > 100) {
+        isCritical = true;
+      }
     }
-  }
 
-  if (isCritical) {
-    return "Critical";
+    if (isCritical) {
+      return "Critical";
+    } else {
+      return "Normal";
+    }
   } else {
-    return "Normal";
+    return "Critical";
   }
 }
 
@@ -92,9 +96,7 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
-
 app.post("/api/register", async (req, res) => {
-
   console.log("received request");
   const { name, introduction, email, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -128,26 +130,18 @@ app.post("/api/login", async (req, res) => {
 });
 
 // GET a single patient by id
-app.get("/api/patients/:id", async (req, res) => {
+app.get("/api/patients/", async (req, res) => {
   try {
-    let patient = await Patient.findOne({ _id: req.params.id });
-    if (!patient) return res.status(404).json({ message: "Patient not found" });
-    patient = patient.toObject();
-    const crit = await isCritical(req.params.id);
-    patient.condition = crit;
-
-    res.status(200).json(patient);
+    const patients = await Patient.find();
+    res.status(200).json(patients);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
-
 
 // GET a single patient by id
 app.get("/api/patients/:id", async (req, res) => {
   try {
-
-
     let patient = await Patient.findOne({ _id: req.params.id });
     if (!patient) return res.status(404).json({ message: "Patient not found" });
     patient = patient.toObject();
@@ -160,14 +154,10 @@ app.get("/api/patients/:id", async (req, res) => {
   }
 });
 
-
 // GET all patients with condition "Critical"
 app.get("/api/critical", async (req, res) => {
   try {
-
-    let search = req.query.search ?? ""
-
-    const patients = await Patient.find({ condition: "Critical", name: { $regex: new RegExp(`^${search}`, 'i') } });
+    const patients = await Patient.find({ condition: "Critical" });
 
     res.status(200).json(patients);
   } catch (err) {
@@ -224,7 +214,7 @@ app.put("/api/patients/:id", async (req, res) => {
 
     if (!updatedPatient)
       return res.status(404).json({ message: "Patient not found" });
-    res.json(updatedPatient);
+    res.status(200).json(updatedPatient);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -316,6 +306,8 @@ app.post("/api/record", async (req, res) => {
       datatype,
       readingValue,
     });
+
+    console.log(patientRecord);
     const savedPatientRecord = await patientRecord.save();
 
     const condition = await isCritical(patient);

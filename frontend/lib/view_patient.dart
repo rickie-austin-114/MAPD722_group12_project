@@ -1,52 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-class ViewPatientScreen extends StatelessWidget {
+class ViewPatientScreen extends StatefulWidget {
   final Map<String, dynamic> patient;
 
-  final List<Map<String, dynamic>> patientRecords = [
-    {
-      "_id": "6759a2ea1d0a3006a394bcfb",
-      "measurementDate": "2024-12-11T14:34:18.919Z",
-      "patient": "6759a2dc1d0a3006a394bcf7",
-      "datatype": "respiratory rate",
-      "readingValue": 20,
-      "__v": 0,
-    },
-    {
-      "_id": "6759a2ec1d0a3006a394bd02",
-      "measurementDate": "2024-12-11T14:34:20.345Z",
-      "patient": "6759a2dc1d0a3006a394bcf7",
-      "datatype": "respiratory rate",
-      "readingValue": 20,
-      "__v": 0,
-    },
-    {
-      "_id": "6759a3871d0a3006a394bd0f",
-      "measurementDate": "2024-12-11T14:36:55.200Z",
-      "patient": "6759a2dc1d0a3006a394bcf7",
-      "datatype": "respiratory rate",
-      "readingValue": 30,
-      "__v": 0,
-    },
-    {
-      "_id": "6759a3c46297c897674a8763",
-      "measurementDate": "2024-12-11T14:37:56.156Z",
-      "patient": "6759a2dc1d0a3006a394bcf7",
-      "datatype": "respiratory rate",
-      "readingValue": 30,
-      "__v": 0,
-    },
-    {
-      "_id": "6759a41a30fd41014861208a",
-      "measurementDate": "2024-12-11T14:39:22.019Z",
-      "patient": "6759a2dc1d0a3006a394bcf7",
-      "datatype": "respiratory rate",
-      "readingValue": 30,
-      "__v": 0,
-    },
-  ];
-
   ViewPatientScreen({required this.patient});
+
+  @override
+  _ViewPatientState createState() => _ViewPatientState();
+}
+
+class _ViewPatientState extends State<ViewPatientScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+    getPatient(context);
+  }
+
+  Future<void> getPatient(BuildContext context) async {
+    // Replace with your API URLs
+    final String url = 'http://localhost:5001/api/patient/record/${widget.patient["_id"]}';
+
+    print(url);
+
+    try {
+      // Send the GET request
+      final response = await http.get(Uri.parse(url));
+
+      // Check the response status
+      if (response.statusCode == 200) {
+        // Successfully received data
+        print('Response data: ${response.body}');
+
+        setState(() {
+          patientRecords = jsonDecode(response.body); // Parse the JSON array
+        });
+      } else {
+        // Handle error
+        print('Failed to fetch data: ${response.statusCode}');
+      }
+    } catch (e) {
+      // Handle any exceptions
+      print('Error: $e');
+    }
+  }
+
+  List<dynamic> patientRecords = [];
 
   @override
   Widget build(BuildContext context) {
@@ -57,33 +58,33 @@ class ViewPatientScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('ID: ${patient["_id"]}'),
-            Text('Name: ${patient["name"]}'),
-            Text('Age: ${patient["age"]}'),
-            Text('Gender: ${patient["gender"]}'),
-            Text('Address: ${patient["address"]}'),
-            Text('Zip Code: ${patient["zipCode"]}'),
-            Text('Condition: ${patient["condition"]}'),
-            Text('Updated At: ${patient["updatedAt"]}'),
-                      Expanded(
-            child: ListView.builder(
-              itemCount: patientRecords.length,
-              itemBuilder: (context, index) {
-                final record = patientRecords[index];
-                final boxColor =
-                    Colors.grey;
+            Text('ID: ${widget.patient["_id"]}'),
+            Text('Name: ${widget.patient["name"]}'),
+            Text('Age: ${widget.patient["age"]}'),
+            Text('Gender: ${widget.patient["gender"]}'),
+            Text('Address: ${widget.patient["address"]}'),
+            Text('Zip Code: ${widget.patient["zipCode"]}'),
+            Text('Condition: ${widget.patient["condition"]}'),
+            Text('Updated At: ${widget.patient["updatedAt"]}'),
+            Expanded(
+              child: ListView.builder(
+                itemCount: patientRecords.length,
+                itemBuilder: (context, index) {
+                  final record = patientRecords[index];
+                  final boxColor = Colors.grey;
 
-                return Container(
-                  color: boxColor,
-                  child: ListTile(
-                    title: Text('Type: ${record["datatype"]}'),
-                    subtitle: Text('Reading value: ${record["readingValue"]}'),
-                  ),
-                );
-
-              },
+                  return Container(
+                    color: boxColor,
+                    child: ListTile(
+                      title: Text('Type: ${record["datatype"]}'),
+                      subtitle: Text(
+                        'Reading value: ${record["readingValue"]}',
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
-          ),
           ],
         ),
       ),
