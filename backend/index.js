@@ -92,9 +92,20 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
+
 app.post("/api/register", async (req, res) => {
+
+  console.log("received request");
   const { name, introduction, email, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
+
+  console.log({
+    name,
+    introduction,
+    email,
+    password: hashedPassword,
+  });
+
   const user = new User({
     name,
     introduction,
@@ -113,26 +124,7 @@ app.post("/api/login", async (req, res) => {
     return res.status(401).json({ message: "Invalid credentials" });
   }
   const token = jwt.sign({ id: user._id }, SECRET, { expiresIn: "1h" });
-  res.json({ token });
-});
-
-// Endpoints
-
-// GET all patients
-app.get("/api/patients", async (req, res) => {
-  try {
-    const search = req.query.search ?? ""
-/*
-    if (!search) {
-      search = ""
-    }
-*/
-    const patients = await Patient.find({ name: { $regex: new RegExp(`^${search}`, 'i') } }); // 'i' for case-insensitive
-
-    res.json(patients);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+  res.status(200).json({ token });
 });
 
 // GET a single patient by id

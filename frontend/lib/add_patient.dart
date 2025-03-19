@@ -11,8 +11,7 @@ class _AddPatientState extends State<AddPatientScreen> {
   final TextEditingController _genderController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _zipCodeController = TextEditingController();
-  final TextEditingController _profilePictureController =
-      TextEditingController();
+  final TextEditingController _profilePictureController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
