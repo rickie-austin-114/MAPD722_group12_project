@@ -1,9 +1,37 @@
 import 'package:flutter/material.dart';
 
+void showMessage(BuildContext context, String title, String content) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(title),
+        content: Text(content),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Close the dialog
+            },
+            child: Text('OK'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
 class AddPatientScreen extends StatefulWidget {
   @override
   _AddPatientState createState() => _AddPatientState();
 }
+
+    name,
+    age,
+    gender,
+    address,
+    zipCode,
+    profilePicture,
+
 
 class _AddPatientState extends State<AddPatientScreen> {
   final TextEditingController _nameController = TextEditingController();

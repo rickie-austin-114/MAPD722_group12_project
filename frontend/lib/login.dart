@@ -4,13 +4,13 @@ import 'register.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-void showLoginFailedMessage(BuildContext context) {
+void showMessage(BuildContext context, String title, String content) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text('Login Failed'),
-        content: Text('Invalid email or password'),
+        title: Text(title),
+        content: Text(content),
         actions: [
           TextButton(
             onPressed: () {
@@ -57,12 +57,13 @@ class LoginScreen extends StatelessWidget {
         print('Response data: ${response.body}');
       } else {
         // Handle error
-        showLoginFailedMessage(context);
+        showMessage(context, "Error", "Invalid email or password");
         print('Failed to post data: ${response.statusCode}');
       }
 
     } catch (e) {
       // Handle any exceptions
+      showMessage(context, "Error", e.toString());
       print('Error: $e');
     }
   }

@@ -136,7 +136,7 @@ app.get("/api/patients/:id", async (req, res) => {
     const crit = await isCritical(req.params.id);
     patient.condition = crit;
 
-    res.json(patient);
+    res.status(200).json(patient);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -154,7 +154,7 @@ app.get("/api/patients/:id", async (req, res) => {
     const crit = await isCritical(req.params.id);
     patient.condition = crit;
 
-    res.json(patient);
+    res.status(200).json(patient);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -169,7 +169,7 @@ app.get("/api/critical", async (req, res) => {
 
     const patients = await Patient.find({ condition: "Critical", name: { $regex: new RegExp(`^${search}`, 'i') } });
 
-    res.json(patients);
+    res.status(200).json(patients);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
