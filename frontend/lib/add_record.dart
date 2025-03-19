@@ -41,7 +41,7 @@ Future<void> sendAddRecordRequest(BuildContext context) async {
         widget.onPop();
       } else {
         // Handle error
-        showMessage(context,"Error", 'Failed to post data: ${response.statusCode}');
+        showMessage(context,"Error", 'Failed to post data: ${response.body}');
       }
     } catch (e) {
       // Handle any exceptions
