@@ -58,6 +58,12 @@ class _ViewPatientState extends State<ViewPatientScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            CircleAvatar(
+                backgroundImage: NetworkImage(
+                  widget.patient["profilePicture"], // Replace with your image URL
+                ),
+                radius: 100, // Adjust the radius as needed
+              ),
             Text('ID: ${widget.patient["_id"]}'),
             Text('Name: ${widget.patient["name"]}'),
             Text('Age: ${widget.patient["age"]}'),
