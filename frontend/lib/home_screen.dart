@@ -148,6 +148,9 @@ class _HomeState extends State<HomeScreen> {
                                         builder:
                                             (context) => ViewPatientScreen(
                                               patient: patient,
+                                              onPop: () {
+                                                getPatient(context);
+                                              },
                                             ),
                                       ),
                                     );
@@ -171,7 +174,7 @@ class _HomeState extends State<HomeScreen> {
                                   },
                                 ),
                                 IconButton(
-                                  icon: Icon(Icons.food_bank),
+                                  icon: Icon(Icons.accessibility_outlined),
                                   onPressed: () {
                                     Navigator.push(
                                       context,

@@ -19,7 +19,6 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
     final String url =
         'http://localhost:5001/api/patients/${widget.patient["_id"]}'; // Replace with your API endpoint
 
-    print(url);
     // Create the JSON data
     final Map<String, dynamic> jsonData = {
       'name': _nameController.text,

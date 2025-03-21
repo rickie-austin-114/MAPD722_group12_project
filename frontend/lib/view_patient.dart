@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import "./add_record.dart";
 
 class ViewPatientScreen extends StatefulWidget {
   final Map<String, dynamic> patient;
-
-  ViewPatientScreen({required this.patient});
+    final Function() onPop;
+  ViewPatientScreen({required this.patient, required this.onPop});
 
   @override
   _ViewPatientState createState() => _ViewPatientState();
 }
 
 class _ViewPatientState extends State<ViewPatientScreen> {
-
   @override
   void initState() {
     super.initState();
@@ -21,7 +21,8 @@ class _ViewPatientState extends State<ViewPatientScreen> {
 
   Future<void> getPatient(BuildContext context) async {
     // Replace with your API URLs
-    final String url = 'http://localhost:5001/api/patient/record/${widget.patient["_id"]}';
+    final String url =
+        'http://localhost:5001/api/patient/record/${widget.patient["_id"]}';
 
     print(url);
 
@@ -59,11 +60,11 @@ class _ViewPatientState extends State<ViewPatientScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CircleAvatar(
-                backgroundImage: NetworkImage(
-                  widget.patient["profilePicture"], // Replace with your image URL
-                ),
-                radius: 100, // Adjust the radius as needed
+              backgroundImage: NetworkImage(
+                widget.patient["profilePicture"], // Replace with your image URL
               ),
+              radius: 100, // Adjust the radius as needed
+            ),
             Text('ID: ${widget.patient["_id"]}'),
             Text('Name: ${widget.patient["name"]}'),
             Text('Age: ${widget.patient["age"]}'),
@@ -72,6 +73,26 @@ class _ViewPatientState extends State<ViewPatientScreen> {
             Text('Zip Code: ${widget.patient["zipCode"]}'),
             Text('Condition: ${widget.patient["condition"]}'),
             Text('Updated At: ${widget.patient["updatedAt"]}'),
+            TextButton(
+              onPressed:
+                  () => {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder:
+                            (context) => AddRecordScreen(
+                              onPop: () => {},
+                              patient: widget.patient,
+                            ),
+                      ),
+                    ),
+                  },
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.white,
+                backgroundColor: Colors.blue,
+              ),
+              child: Text("Add Measurement Record"),
+            ),
             Expanded(
               child: ListView.builder(
                 itemCount: patientRecords.length,
