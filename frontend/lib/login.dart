@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import './show_message.dart';
 
-
 class LoginScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -42,7 +41,6 @@ class LoginScreen extends StatelessWidget {
         showMessage(context, "Error", "Invalid email or password");
         print('Failed to post data: ${response.statusCode}');
       }
-
     } catch (e) {
       // Handle any exceptions
       showMessage(context, "Error", e.toString());

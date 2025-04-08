@@ -5,21 +5,23 @@ import "./add_record.dart";
 
 class ViewPatientScreen extends StatefulWidget {
   final Map<String, dynamic> patient;
-    final Function() onPop;
+  final Function() onPop;
   ViewPatientScreen({required this.patient, required this.onPop});
 
   @override
   _ViewPatientState createState() => _ViewPatientState();
 }
 
+const textSize = 20.0;
+
 class _ViewPatientState extends State<ViewPatientScreen> {
   @override
   void initState() {
     super.initState();
-    getPatient(context);
+    getPatientRecords(context);
   }
 
-  Future<void> getPatient(BuildContext context) async {
+  Future<void> getPatientRecords(BuildContext context) async {
     // Replace with your API URLs
     final String url =
         'http://localhost:5001/api/patient/record/${widget.patient["_id"]}';
@@ -65,14 +67,38 @@ class _ViewPatientState extends State<ViewPatientScreen> {
               ),
               radius: 100, // Adjust the radius as needed
             ),
-            Text('ID: ${widget.patient["_id"]}'),
-            Text('Name: ${widget.patient["name"]}'),
-            Text('Age: ${widget.patient["age"]}'),
-            Text('Gender: ${widget.patient["gender"]}'),
-            Text('Address: ${widget.patient["address"]}'),
-            Text('Zip Code: ${widget.patient["zipCode"]}'),
-            Text('Condition: ${widget.patient["condition"]}'),
-            Text('Updated At: ${widget.patient["updatedAt"]}'),
+            Text(
+              'ID: ${widget.patient["_id"]}',
+              style: TextStyle(fontSize: textSize),
+            ),
+            Text(
+              'Name: ${widget.patient["name"]}',
+              style: TextStyle(fontSize: textSize),
+            ),
+            Text(
+              'Age: ${widget.patient["age"]}',
+              style: TextStyle(fontSize: textSize),
+            ),
+            Text(
+              'Gender: ${widget.patient["gender"]}',
+              style: TextStyle(fontSize: textSize),
+            ),
+            Text(
+              'Address: ${widget.patient["address"]}',
+              style: TextStyle(fontSize: textSize),
+            ),
+            Text(
+              'Zip Code: ${widget.patient["zipCode"]}',
+              style: TextStyle(fontSize: textSize),
+            ),
+            Text(
+              'Condition: ${widget.patient["condition"]}',
+              style: TextStyle(fontSize: textSize),
+            ),
+            Text(
+              'Updated At: ${widget.patient["updatedAt"]}',
+              style: TextStyle(fontSize: textSize),
+            ),
             TextButton(
               onPressed:
                   () => {
@@ -81,7 +107,7 @@ class _ViewPatientState extends State<ViewPatientScreen> {
                       MaterialPageRoute(
                         builder:
                             (context) => AddRecordScreen(
-                              onPop: () => {},
+                              onPop: () => {getPatientRecords(context)},
                               patient: widget.patient,
                             ),
                       ),

@@ -3,7 +3,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'show_message.dart';
 
-
 class AddPatientScreen extends StatefulWidget {
   final Function() onPop;
 

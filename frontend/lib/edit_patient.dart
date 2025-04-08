@@ -3,7 +3,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import './show_message.dart';
 
-
 class EditPatientScreen extends StatefulWidget {
   final Map<String, dynamic> patient;
   final Function() onPop;
@@ -47,8 +46,11 @@ class _EditPatientScreenState extends State<EditPatientScreen> {
       widget.onPop();
     } else {
       // If the server did not return a 200 OK response, throw an exception
-      showMessage(context, "Failed", 'Failed to update resource: ${response.statusCode}');
-
+      showMessage(
+        context,
+        "Failed",
+        'Failed to update resource: ${response.statusCode}',
+      );
     }
   }
 

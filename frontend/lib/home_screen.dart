@@ -127,15 +127,14 @@ class _HomeState extends State<HomeScreen> {
                                   : Colors
                                       .white, // Apply the color to the container
                           child: ListTile(
-                            
                             title: Text('${patient["name"]}'),
                             subtitle: Text('Age: ${patient["age"]}'),
                             leading: CircleAvatar(
-                backgroundImage: NetworkImage(
-                  patient["profilePicture"], // Replace with your image URL
-                ),
-                radius: 30, // Adjust the radius as needed
-              ),
+                              backgroundImage: NetworkImage(
+                                patient["profilePicture"], // Replace with your image URL
+                              ),
+                              radius: 30, // Adjust the radius as needed
+                            ),
                             trailing: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [

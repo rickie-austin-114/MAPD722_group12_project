@@ -12,8 +12,7 @@ class AddRecordScreen extends StatefulWidget {
 }
 
 class _AddRecordScreenState extends State<AddRecordScreen> {
-
-Future<void> sendAddRecordRequest(BuildContext context) async {
+  Future<void> sendAddRecordRequest(BuildContext context) async {
     // Replace with your API URL
     final String url = 'http://localhost:5001/api/record';
 
@@ -41,16 +40,14 @@ Future<void> sendAddRecordRequest(BuildContext context) async {
         widget.onPop();
       } else {
         // Handle error
-        showMessage(context,"Error", 'Failed to post data: ${response.body}');
+        showMessage(context, "Error", 'Failed to post data: ${response.body}');
       }
     } catch (e) {
       // Handle any exceptions
       showMessage(context, "Error", e.toString());
       print('Error: $e');
     }
-}
-
-
+  }
 
   String? _datatype;
   final TextEditingController _readingValueController = TextEditingController();
