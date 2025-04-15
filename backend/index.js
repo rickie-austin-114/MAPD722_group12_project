@@ -87,12 +87,18 @@ async function isCritical(id) {
   }
 }
 
+// , {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+// }
+
+
 // MongoDB connection
 mongoose
-  .connect(MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(MONGODB_URI
+
+
+  )
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
@@ -343,3 +349,6 @@ app.post("/api/record", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
+
+
+module.exports = app; // Make sure you export the app
