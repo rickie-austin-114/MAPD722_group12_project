@@ -95,6 +95,8 @@ class RegisterScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
+
+
   Future<void> register(BuildContext context) async {
     // Replace with your API URL
     final String url = 'http://localhost:5001/api/register';
@@ -140,6 +142,8 @@ class RegisterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
+      appBar: AppBar(title: Text('Register')),
+
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Column(
@@ -191,7 +195,7 @@ class RegisterScreen extends StatelessWidget {
                   FadeInUp(
                     duration: Duration(milliseconds: 1500),
                     child: Text(
-                      "Add Patient",
+                      "Register",
                       style: TextStyle(
                         color: Color.fromRGBO(49, 39, 79, 1),
                         fontWeight: FontWeight.bold,
@@ -301,7 +305,7 @@ class RegisterScreen extends StatelessWidget {
                       height: 50,
                       child: Center(
                         child: Text(
-                          "Add Patient",
+                          "Register",
                           style: TextStyle(color: Colors.white),
                         ),
                       ),

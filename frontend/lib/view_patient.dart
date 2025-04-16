@@ -117,7 +117,7 @@ class _ViewPatientState extends State<ViewPatientScreen> {
                       FadeInUp(
                         duration: Duration(milliseconds: 1500),
                         child: Text(
-                          "Add Patient",
+                          "View Patient",
                           style: TextStyle(
                             color: Color.fromRGBO(49, 39, 79, 1),
                             fontWeight: FontWeight.bold,
@@ -269,7 +269,7 @@ class _ViewPatientState extends State<ViewPatientScreen> {
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(20),
-                                          color: Colors.blueGrey,
+                                          color: Colors.grey,
                                         ),
                                         child: ListTile(
                                           shape: RoundedRectangleBorder(

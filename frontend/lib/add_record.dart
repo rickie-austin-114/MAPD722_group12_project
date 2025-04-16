@@ -206,7 +206,7 @@ class _AddRecordScreenState extends State<AddRecordScreen> {
                   FadeInUp(
                     duration: Duration(milliseconds: 1500),
                     child: Text(
-                      "Add Patient",
+                      "Add Record",
                       style: TextStyle(
                         color: Color.fromRGBO(49, 39, 79, 1),
                         fontWeight: FontWeight.bold,
@@ -242,6 +242,7 @@ class _AddRecordScreenState extends State<AddRecordScreen> {
                             'heart beat rate',
                           ].map((String option) {
                             return RadioListTile<String>(
+                              
                               title: Text(option),
                               value: option,
                               groupValue: _datatype,

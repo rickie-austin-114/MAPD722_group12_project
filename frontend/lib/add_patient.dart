@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'show_message.dart';
 import 'package:animate_do/animate_do.dart';
 
-
 class AddPatientScreen extends StatefulWidget {
   final Function() onPop;
 
@@ -148,8 +147,6 @@ class _AddPatientState extends State<AddPatientScreen> {
 }
 */
 
-
-
 class _AddPatientState extends State<AddPatientScreen> {
   Future<void> addPatient(BuildContext context) async {
     // Replace with your API URL
@@ -197,7 +194,6 @@ class _AddPatientState extends State<AddPatientScreen> {
     Navigator.pop(context);
     widget.onPop();
   }
-
 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _ageController = TextEditingController();
@@ -313,6 +309,13 @@ class _AddPatientState extends State<AddPatientScreen> {
                           ),
                           Container(
                             padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                  color: Color.fromRGBO(196, 135, 198, .3),
+                                ),
+                              ),
+                            ),
                             child: TextField(
                               controller: _ageController,
 
@@ -327,6 +330,13 @@ class _AddPatientState extends State<AddPatientScreen> {
                           ),
                           Container(
                             padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                  color: Color.fromRGBO(196, 135, 198, .3),
+                                ),
+                              ),
+                            ),
                             child: TextField(
                               controller: _genderController,
 
@@ -341,6 +351,13 @@ class _AddPatientState extends State<AddPatientScreen> {
                           ),
                           Container(
                             padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                  color: Color.fromRGBO(196, 135, 198, .3),
+                                ),
+                              ),
+                            ),
                             child: TextField(
                               controller: _addressController,
 
@@ -355,6 +372,13 @@ class _AddPatientState extends State<AddPatientScreen> {
                           ),
                           Container(
                             padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                  color: Color.fromRGBO(196, 135, 198, .3),
+                                ),
+                              ),
+                            ),
                             child: TextField(
                               controller: _zipCodeController,
 
@@ -370,6 +394,13 @@ class _AddPatientState extends State<AddPatientScreen> {
 
                           Container(
                             padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                  color: Color.fromRGBO(196, 135, 198, .3),
+                                ),
+                              ),
+                            ),
                             child: TextField(
                               controller: _profilePictureController,
 
@@ -410,9 +441,7 @@ class _AddPatientState extends State<AddPatientScreen> {
                     duration: Duration(milliseconds: 2000),
                     child: Center(
                       child: TextButton(
-                        onPressed: () => {
-                          Back(context),
-                        },
+                        onPressed: () => {Back(context)},
                         child: Text(
                           "Back",
                           style: TextStyle(
