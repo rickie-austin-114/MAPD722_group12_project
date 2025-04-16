@@ -87,7 +87,6 @@ describe("PUT /api/patients/:id", () => {
 describe('POST /api/record', () => {
   it('should return status code 201', async () => {
     const newRecord = {
-      //measurementDate: '2023-04-15',
       patient: '67dad778bd3287f88ee454fb', // Example patient ID
       datatype: 'blood oxygen level',
       readingValue: 95,
@@ -108,7 +107,6 @@ describe('POST /api/record', () => {
       expect(response.body).toBeDefined(); // Check that body is defined
   });
 });
-
 
 describe('POST /api/record', () => {
     it('should return status code 400', async () => {

@@ -1,30 +1,47 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:http/http.dart' as http;
+import 'package:mockito/mockito.dart';
+import '../lib/main.dart'; // Adjust this path
+import "../lib/login.dart";
 
-import 'package:frontend/main.dart';
+class MockHttpClient extends Mock implements http.Client {}
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets('Show error message for incorrect login', (
+    WidgetTester tester,
+  ) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(MyApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Find the email and password text fields and login button
+    final emailField = find.byType(TextField).at(0);
+    final passwordField = find.byType(TextField).at(1);
+    final loginButton = find.byType(ElevatedButton).first;
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    // Enter incorrect email and password
+    await tester.enterText(emailField, 'rickie@example.com');
+    await tester.enterText(passwordField, 'incorrect_password');
+    await tester.tap(loginButton);
+    await tester.pumpAndSettle();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Check for the error message
+    expect(find.text('Invalid email or password'), findsOneWidget);
+  });
+
+  testWidgets('Navigate to register page when Register button is pressed', (WidgetTester tester) async {
+    // Build the LoginScreen widget
+    await tester.pumpWidget(MaterialApp(home: LoginScreen()));
+
+    // Find the Register button
+    final registerButton = find.text('Register');
+
+    // Tap the Register button
+    await tester.tap(registerButton);
+    await tester.pumpAndSettle(); // Wait for the navigation to complete
+
+    // Verify that we have navigated to the Register page
+    expect(find.text('Register'), findsOneWidget);
   });
 }
+
