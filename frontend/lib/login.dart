@@ -8,6 +8,7 @@ import './show_message.dart';
 import 'package:animate_do/animate_do.dart';
 import '../model/patient.dart';
 import '../constants/colors.dart';
+import 'dart:io';
 
 
 
@@ -24,7 +25,7 @@ class _HomePageState extends State<LoginScreen> {
 
   Future<void> login(BuildContext context) async {
     // Replace with your API URL
-    final String url = 'http://localhost:5001/api/login';
+    final String url = Platform.isAndroid ? 'http://10.0.2.2:5001/api/login' : 'http://localhost:5001/api/login';
 
     // Prepare the JSON data
     Map<String, dynamic> jsonData = {

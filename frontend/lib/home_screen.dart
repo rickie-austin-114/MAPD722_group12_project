@@ -5,6 +5,7 @@ import './edit_patient.dart';
 import './add_record.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:io';
 
 import '../model/patient.dart';
 import '../constants/colors.dart';
@@ -17,11 +18,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeState extends State<HomeScreen> {
-  List<Patient> todosList = [];
-  List<Patient> _foundToDo = [];
-  final _todoController = TextEditingController();
+  List<Patient> patientsList = [];
+  List<Patient> _patientDisplayList = [];
+  final _searchController = TextEditingController();
 
   bool _isCriticalOn = false; // Initial state of the switch
+
+  final String backendURL = Platform.isAndroid ?  'http://10.0.2.2:5001/api' : 'http://localhost:5001/api';
+
 
   void _toggleSwitch(bool value) {
     setState(() {
@@ -31,7 +35,7 @@ class _HomeState extends State<HomeScreen> {
     updatePatient();
   }
 
-  final backendURL = 'http://localhost:5001/api';
+
 
   @override
   void initState() {
@@ -39,8 +43,8 @@ class _HomeState extends State<HomeScreen> {
     fetchPatients(context)
         .then((patients) {
           setState(() {
-            todosList = patients;
-            _foundToDo = patients;
+            patientsList = patients;
+            _patientDisplayList = patients;
           });
         })
         .catchError((error) {
@@ -53,8 +57,8 @@ class _HomeState extends State<HomeScreen> {
     fetchPatients(context)
         .then((patients) {
           setState(() {
-            todosList = patients;
-            _foundToDo = patients;
+            patientsList = patients;
+            _patientDisplayList = patients;
           });
         })
         .catchError((error) {
@@ -100,7 +104,7 @@ class _HomeState extends State<HomeScreen> {
                           Container(
                             margin: EdgeInsets.only(top: 50, bottom: 20),
                             child: Text(
-                              'All ToDos',
+                              'All Patients',
                               style: TextStyle(
                                 fontSize: 30,
                                 fontWeight: FontWeight.w500,
@@ -114,12 +118,11 @@ class _HomeState extends State<HomeScreen> {
                         ],
                       ),
 
-                      for (Patient patient in _foundToDo.reversed)
+                      for (Patient patient in _patientDisplayList.reversed)
                         Container(
                           margin: EdgeInsets.only(bottom: 20),
                           child: ListTile(
                             onTap: () {
-                              // print('Clicked on Todo Item.');
                             },
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
@@ -258,10 +261,10 @@ class _HomeState extends State<HomeScreen> {
   void _runFilter(String enteredKeyword) {
     List<Patient> results = [];
     if (enteredKeyword.isEmpty) {
-      results = todosList;
+      results = patientsList;
     } else {
       results =
-          todosList
+          patientsList
               .where(
                 (item) => item.name!.toLowerCase().contains(
                   enteredKeyword.toLowerCase(),
@@ -271,7 +274,7 @@ class _HomeState extends State<HomeScreen> {
     }
 
     setState(() {
-      _foundToDo = results;
+      _patientDisplayList = results;
     });
   }
 

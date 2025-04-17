@@ -3,6 +3,7 @@ import 'package:frontend/model/patient.dart';
 import './show_message.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:animate_do/animate_do.dart';
 
@@ -113,7 +114,7 @@ class _AddRecordScreenState extends State<AddRecordScreen> {
 class _AddRecordScreenState extends State<AddRecordScreen> {
   Future<void> sendAddRecordRequest(BuildContext context) async {
     // Replace with your API URL
-    final String url = 'http://localhost:5001/api/record';
+    final String url = Platform.isAndroid ? 'http://10.0.2.2:5001/api/record' : 'http://localhost:5001/api/record';
 
     // Prepare the JSON data
     Map<String, dynamic> jsonData = {

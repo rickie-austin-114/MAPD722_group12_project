@@ -1,13 +1,3 @@
-    // "_id": "67da66cfe3a30787910e6ce7",
-    // "name": "Rickie Au",
-    // "age": 24,
-    // "gender": "Male",
-    // "address": "937 Progress Ave",
-    // "zipCode": "M1G 3T8",
-    // "profilePicture": "https://static.wikia.nocookie.net/roblox/images/4/4b/Epic_Face_Icon.png",
-    // "condition": "Normal",
-    // "updatedAt": "2025-04-15T13:47:42.286Z",
-
 class Patient {
 
   String? id;

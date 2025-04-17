@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'show_message.dart';
 import 'package:animate_do/animate_do.dart';
+import "dart:io";
 
 class AddPatientScreen extends StatefulWidget {
   final Function() onPop;
@@ -150,7 +151,7 @@ class _AddPatientState extends State<AddPatientScreen> {
 class _AddPatientState extends State<AddPatientScreen> {
   Future<void> addPatient(BuildContext context) async {
     // Replace with your API URL
-    final String url = 'http://localhost:5001/api/patients';
+    final String url = Platform.isAndroid ? 'http://10.0.2.2:5001/api/record' : 'http://localhost:5001/api/record';
 
     // Prepare the JSON data
     Map<String, dynamic> jsonData = {

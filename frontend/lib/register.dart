@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:animate_do/animate_do.dart';
+import 'dart:io';
 
 /*
 class RegisterScreen extends StatelessWidget {
@@ -84,10 +85,6 @@ class RegisterScreen extends StatelessWidget {
 */
 
 
-
-
-
-
 class RegisterScreen extends StatelessWidget {
 
   final TextEditingController nameController = TextEditingController();
@@ -99,7 +96,9 @@ class RegisterScreen extends StatelessWidget {
 
   Future<void> register(BuildContext context) async {
     // Replace with your API URL
-    final String url = 'http://localhost:5001/api/register';
+
+    final String url = Platform.isAndroid ? 'http://10.0.2.2:5001/api/register' : 'http://localhost:5001/api/register';
+
 
     // Prepare the JSON data
     Map<String, dynamic> jsonData = {
