@@ -14,6 +14,9 @@ import 'package:frontend/edit_patient.dart';
 import 'package:frontend/view_patient.dart'; // Update this with your actual import
 import 'package:mockito/mockito.dart';
 
+import "package:frontend/constants/pages.dart";
+
+
 import 'package:http/http.dart' as http;
 
 class MockClient extends Mock implements http.Client {}

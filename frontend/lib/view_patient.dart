@@ -28,7 +28,7 @@ class _ViewPatientState extends State<ViewPatientScreen> {
   Future<void> getPatientRecords(BuildContext context) async {
 
 
-    // Replace with your API URLs
+    // API URLs
     final String url = Platform.isAndroid ? 'http://10.0.2.2:5001/api/patient/record/${widget.patient.id}':
         'http://localhost:5001/api/patient/record/${widget.patient.id}';
 
