@@ -14,11 +14,10 @@ class AddPatientScreen extends StatefulWidget {
   _AddPatientState createState() => _AddPatientState();
 }
 
-/*
 class _AddPatientState extends State<AddPatientScreen> {
   Future<void> addPatient(BuildContext context) async {
     // Replace with your API URL
-    final String url = 'http://localhost:5001/api/patients';
+    final String url = Platform.isAndroid ? 'http://10.0.2.2:5001/api/patients' : 'http://localhost:5001/api/patients';
 
     // Prepare the JSON data
     Map<String, dynamic> jsonData = {
@@ -48,140 +47,7 @@ class _AddPatientState extends State<AddPatientScreen> {
         widget.onPop();
       } else {
         // Handle error
-        showMessage(context, "Error", "Invalid email or password");
-        print('Failed to post data: ${response.statusCode}');
-      }
-    } catch (e) {
-      // Handle any exceptions
-      showMessage(context, "Error", e.toString());
-      print('Error: $e');
-    }
-  }
-
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _ageController = TextEditingController();
-  final TextEditingController _genderController = TextEditingController();
-  final TextEditingController _addressController = TextEditingController();
-  final TextEditingController _zipCodeController = TextEditingController();
-  final TextEditingController _profilePictureController =
-      TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Add Patient'), backgroundColor: Colors.blue),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Name:'),
-            TextField(
-              controller: _nameController,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Enter your name',
-              ),
-            ),
-            SizedBox(height: 20),
-
-            Text('Age:'),
-            TextField(
-              controller: _ageController,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Enter your age',
-              ),
-            ),
-            SizedBox(height: 20),
-
-            Text('Gender:'),
-            TextField(
-              controller: _genderController,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Enter your gender',
-              ),
-            ),
-            SizedBox(height: 20),
-            Text('Address:'),
-            TextField(
-              controller: _addressController,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Enter your adress',
-              ),
-            ),
-            SizedBox(height: 20),
-            Text('Zip Code:'),
-            TextField(
-              controller: _zipCodeController,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Enter your Zip Code',
-              ),
-            ),
-            SizedBox(height: 20),
-            Text('Profile Picture :'),
-            TextField(
-              controller: _profilePictureController,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Enter your profile picture',
-              ),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                addPatient(context);
-              },
-              child: Text('Submit'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-*/
-
-class _AddPatientState extends State<AddPatientScreen> {
-  Future<void> addPatient(BuildContext context) async {
-    // Replace with your API URL
-    final String url = Platform.isAndroid ? 'http://10.0.2.2:5001/api/record' : 'http://localhost:5001/api/record';
-
-    // Prepare the JSON data
-    Map<String, dynamic> jsonData = {
-      "name": _nameController.text,
-      "age": _ageController.text,
-      "gender": _genderController.text,
-      "address": _addressController.text,
-      "zipCode": _zipCodeController.text,
-      "profilePicture": _profilePictureController.text,
-    };
-
-    try {
-      // Send the POST request
-      final response = await http.post(
-        Uri.parse(url),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode(jsonData),
-      );
-
-      // Check the response status
-      if (response.statusCode == 201) {
-        // Successfully posted
-
-        print('Response data: ${response.body}');
-
-        Navigator.pop(context);
-        widget.onPop();
-      } else {
-        // Handle error
-        showMessage(context, "Error", "Invalid email or password");
+        showMessage(context, "Error", response.statusCode.toString());
         print('Failed to post data: ${response.statusCode}');
       }
     } catch (e) {
